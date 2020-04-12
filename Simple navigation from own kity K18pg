@@ -1,0 +1,66 @@
+import sqlite3 as db
+import os
+from tkinter import*
+from tkinter import ttk
+from tkinter import messagebox
+import gmplot
+import webbrowser
+ 
+ 
+def register():    
+  
+    
+    global register_screen
+    register_screen = Toplevel(h)
+    register_screen.title("Register")
+    register_screen.geometry("450x400")
+
+
+    global source1
+    global destination1
+    global source_entry
+    global destintion_entry
+    source1 = StringVar()
+    destination1 = StringVar()
+
+
+    l1=Label(register_screen,text="Source",font="bold 20").place(x='500',y="150")
+    l2=Label(register_screen,text="Destination",font="bold 20").place(x='500',y="180")
+
+
+    source_entry=Entry(register_screen,textvariable=source1)
+    source_entry.place(x='650',y="150")
+    destintion_entry= Entry(register_screen, textvariable=destination1)
+    destintion_entry.place(x='650',y="180")
+    
+
+    Button(register_screen,text="ENTER",fg="black",bg='cyan2',font="woodcut,50",command=lambda:show()).place(x="580",y="250")
+    import gmplot
+    from geopy.geocoders import Nominatim
+    geolocator = Nominatim(user_agent="specify_your_app_name_here")
+    location = geolocator.geocode("ecil hyderabad")
+    print((location.latitude, location.longitude))
+    geolocator = Nominatim(user_agent="specify_your_app_name_here")
+    location1 = geolocator.geocode("charminar")
+    print((location1.latitude, location1.longitude))
+    Charminar_top_attraction_lats, Charminar_top_attraction_lons = zip(*[(location.latitude, location.longitude),(location1.latitude, location1.longitude)])
+    gmap3 = gmplot.GoogleMapPlotter(17.3616, 78.4747, 13)
+    gmap3.scatter( Charminar_top_attraction_lats, Charminar_top_attraction_lons, '#FF0000',size = 50, marker = False )
+    gmap3.plot(Charminar_top_attraction_lats, Charminar_top_attraction_lons, 'cornflowerblue', edge_width = 3.0)
+    gmap3.draw("C:\\Users\\12295\\OneDrive\\Desktop\\scatter2.html")
+def show():
+    webbrowser.open("file:///C:/Users/12295/OneDrive/Desktop/scatter2.html")
+def main_account_screen():
+    global h
+    h=Tk()
+    h.geometry("1800x700+0+0")
+    h.config(bg="mintcream")
+    A=Frame(h,width=1600,height=100,relief=SUNKEN)
+    A.pack(side=TOP)
+    a=Label(A,font=('Elephant',40, 'bold'),text="   NAVIGATION TRACKER",fg='black',bd=20,anchor=N).place(x=250,y=0)
+    Button(h,text="ENTER",fg="black",bg='cyan2',font="woodcut,50",command=lambda:register()).place(x="600",y="350")
+    h.mainloop()
+    
+    
+ 
+main_account_screen()
